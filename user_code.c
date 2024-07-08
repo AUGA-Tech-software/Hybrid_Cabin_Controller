@@ -6,7 +6,7 @@
 /// \version  2.0
 /// \comment  file to write user specific code
 //--------------------------------------------------------------------------
-// AUGA Tech Hybrid M2 Tractror Cabin Controller Software on MRS M3600
+// AUGA Tech Hybrid M1 Tractror Cabin Controller Software on MRS M3600
 //--------------------------------------------------------------------------
 
 #include "user_code.h"
