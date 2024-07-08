@@ -1,0 +1,51 @@
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(232): WARNING C1420: Result of function-call is ignored
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(233): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(248): WARNING C1420: Result of function-call is ignored
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(250): WARNING C1420: Result of function-call is ignored
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(253): WARNING C1420: Result of function-call is ignored
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(268): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(272): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(313): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(322): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(329): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(329): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(333): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(333): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(337): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(337): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(341): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(341): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(353): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(354): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(355): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(357): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(358): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(359): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(421): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(449): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(450): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(451): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(452): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(453): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(454): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(455): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(456): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(457): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(458): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(459): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(460): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(462): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(463): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(464): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(475): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(476): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(477): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(478): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(479): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(480): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(481): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(482): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(483): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(484): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\M3600_CAN_SPS_D_H_Cabin_Controller\src\..\user_code.c"(485): WARNING C2705: Possible loss of data
+

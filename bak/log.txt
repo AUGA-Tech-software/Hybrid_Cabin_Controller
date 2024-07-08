@@ -1,0 +1,44 @@
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(161): WARNING C1420: Result of function-call is ignored
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(162): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(177): WARNING C1420: Result of function-call is ignored
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(179): WARNING C1420: Result of function-call is ignored
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(183): WARNING C1420: Result of function-call is ignored
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(197): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(201): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(238): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(247): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(254): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(258): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(262): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(266): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(402): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(426): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(427): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(428): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(429): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(430): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(431): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(432): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(433): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(434): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(435): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(436): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(437): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(439): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(440): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(441): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(443): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(444): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(504): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(505): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(506): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(507): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(509): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(510): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(511): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(512): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(513): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(513): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(514): WARNING C2705: Possible loss of data
+"C:\Users\d.vaitiekus\OneDrive - AB AUGA Group\Documents\GIT PROJECTS\Cabin-Controller\src\..\user_code.c"(514): WARNING C2705: Possible loss of data
+
