@@ -2,7 +2,7 @@
 /** \file     can_db_tables.c
 *   \brief    CAN bus database
 *
-*   \date     2024-07-08    \author   DS/
+*   \date     2024-07-09    \author   DS/
 *
 *   \platform HCS08DZ / HCS12XE / HCS12XD / HCS12P
 * --------------------------------------------------------------------------*/
@@ -30,7 +30,7 @@
  //-----------------------------------------------------------------------------------------------------------------
  //(16 Bit)              (0-63)                (1-32)                  (0=Intel, 1=Motorola)
  //-----------------------------------------------------------------------------------------------------------------
-{  CCVS                  ,8                    ,16         ,UINT       ,0          },  //Wheel_Based_Vechcle_Speed
+{  CCVS                  ,8                    ,16         ,UINT       ,0          },  //Wheel_Based_Vehicle_Speed
 {  ETC2_F                ,24                   ,8          ,UBYTE      ,0          },  //GBF_CURRENT_GEAR      
 {  ETC2_R                ,24                   ,8          ,UBYTE      ,0          },  //GBR_CURRENT_GEAR      
 {  LEVER_BACK            ,8                    ,4          ,UBYTE      ,0          },  //LVR_BCK_UP_CNT        

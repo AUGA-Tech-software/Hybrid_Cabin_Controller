@@ -604,7 +604,7 @@ void usercode(void)
         //send speed CAN message
         uint16_t crc_result;
         uint8_t direction = 0xFC | gearR_en;
-        uint16_t speed = can_db_get_value(Wheel_Based_Vechcle_Speed);
+        uint16_t speed = can_db_get_value(Wheel_Based_Vehicle_Speed);
         uint8_t can_message[8];
         can_message[0] = 0xFF;
         can_message[1] = direction;

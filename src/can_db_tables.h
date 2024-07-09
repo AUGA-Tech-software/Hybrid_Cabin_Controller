@@ -6,7 +6,7 @@
 /** \file     can_db_tables.h
 *   \brief    CAN bus database
 *
-*   \date     2024-07-08    \author   DS/
+*   \date     2024-07-09    \author   DS/
 *
 *   \platform HCS08DZ / HCS12XE / HCS12XD / HCS12P
 * --------------------------------------------------------------------------
@@ -128,7 +128,7 @@ typedef enum
 /// Define datapoints: Order must be the same as in table#can_datenpunkt_db_const
 typedef enum
 {
-    Wheel_Based_Vechcle_Speed  = 0,
+    Wheel_Based_Vehicle_Speed  = 0,
     GBF_CURRENT_GEAR           ,
     GBR_CURRENT_GEAR           ,
     LVR_BCK_UP_CNT             ,
