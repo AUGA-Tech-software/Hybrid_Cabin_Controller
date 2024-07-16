@@ -2,7 +2,7 @@
 /** \file     can_db_tables.c
 *   \brief    CAN bus database
 *
-*   \date     2024-07-09    \author   DS/
+*   \date     2024-07-16    \author   DS/
 *
 *   \platform HCS08DZ / HCS12XE / HCS12XD / HCS12P
 * --------------------------------------------------------------------------*/
@@ -133,7 +133,7 @@
 {  CAN_BUS_1             ,0x10B14D4C           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //PNL_B1                
 {  CAN_BUS_1             ,0x10B24D4C           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //PNL_B2                
 {  CAN_BUS_1             ,0x18FEF15A           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //CCVS                  
-{  CAN_BUS_2             ,0x18FF205A           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //PVED_STATUS           
+{  CAN_BUS_2             ,0x18FF2013           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //PVED_STATUS           
 };
 
 

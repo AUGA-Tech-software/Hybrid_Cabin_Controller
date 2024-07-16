@@ -6,7 +6,7 @@
 /** \file     can_db_tables.h
 *   \brief    CAN bus database
 *
-*   \date     2024-07-09    \author   DS/
+*   \date     2024-07-16    \author   DS/
 *
 *   \platform HCS08DZ / HCS12XE / HCS12XD / HCS12P
 * --------------------------------------------------------------------------
@@ -59,8 +59,8 @@
     #define CAN1_MASK_B   0x00000000
     #define CAN1_MASK_DIVISION BIOS_CAN_ID_EXT_A_AND_B
 
-    #define CAN2_FILTER_A 0x18FF205A
-    #define CAN2_FILTER_B 0x18FF205A
+    #define CAN2_FILTER_A 0x18FF2013
+    #define CAN2_FILTER_B 0x18FF2013
     #define CAN2_MASK_A   0x00000000
     #define CAN2_MASK_B   0x00000000
     #define CAN2_MASK_DIVISION BIOS_CAN_ID_EXT_A_AND_B

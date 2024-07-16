@@ -2,8 +2,8 @@
 /// \file     user_code.c
 /// \brief    user code
 /// \author   R. Bacevicius / D. Vaitiekus
-/// \date     2024-07-08
-/// \version  2.0
+/// \date     2024-07-11
+/// \version  2.0.1
 /// \comment  file to write user specific code
 //--------------------------------------------------------------------------
 // AUGA Tech Hybrid M1 Tractror Cabin Controller Software on MRS M3600
@@ -17,11 +17,19 @@
 // --------------------------------------------------------------------------------
 // Example variables
 // --------------------------------------------------------------------------------
-#define SoftwareVersion "V0.2.0" // Testing versions will have V9 at the start. Normal version - V0
-#define SoftwareDate "2024.07.08"
+#define SoftwareVersion "V2.0.1"                    // Version: Major.Minor.Daily
+#define SoftwareDate "2024.07.11"
+#define ECU_SA 0x31                                 // Cabin Controller ECU Source Address
+
+// Can bus definitions:
+// CAN_BUS_0 - Vehicle CAN
+// CAN_BUS_1 - BTN Panel CAN (CLAAS Joystick and buttons)
+// CAN_BUS_2 - Autosteering CAN (Danfoss and Raven)
+
 uint16_t uint16_1, uint16_2, uint16_3, uint16_4;    // For DEBUG
 uint8_t uint8_1, uint8_2, uint8_3, uint8_4;         // For DEBUG
-uint32_t time_val, last_time, last_time1, last_time2, time_diff;
+
+uint32_t time_val, last_time, last_time1, last_time2, time_diff, time_diff2;
 uint8_t i, j;
 uint8_t can_data_bytes[8];
 uint8_t current_gear = 0xFB;
@@ -68,11 +76,12 @@ J1939_PGN pgn_list[] = {
         {0x18FFB7,		90, 	8,		70,		6,		ECU_CABIN,	1,		0},	// PGN_65463_PROPB_B7 (BTN panel (Buttons), Menu buttons msg)
         {0x18FFB8,		90, 	8,		76,		8,		ECU_CABIN,	1,		0},	// PGN_65464_PROPB_B8 (BTN panel (Knobs), Menu knobs msg)
         {0x18FFDF,		90, 	8,		84,		2,		ECU_CABIN,	1,		0},	// PGN_65503_PROPB_DF (Danfoss steering controller status)
-        {0x18FF99,		90, 	8,		86,		8,		ECU_CABIN,	1,		0},	// PGN_65433_PROPB_99 (TEST MESSAGE DEBUG)
-        {0x0CFE30,		90,	    8,		94,		3,		ECU_CABIN,	1,		0},	// PGN_65072_AV0C
-        {0x0CFE31,		90,	    8,		97,		3,		ECU_CABIN,	1,		0},	// PGN_65072_AV1C
-        {0x0CFE32,		90,	    8,		100,	3,		ECU_CABIN,	1,		0},	// PGN_65072_AV2C
-        {0x0CFE33,		90,	    8,		103,	3,		ECU_CABIN,	1,		0}	// PGN_65072_AV3C
+        {0x0CFFDF,		90, 	8,		86,		1,		ECU_CABIN,	0,		0},	// PGN_65503_PROPB_DF_LP (HMI controller proprietary COM) Read-Only
+        {0x18FF99,		90, 	8,		87,		8,		ECU_CABIN,	0,		0},	// PGN_65433_PROPB_99 (TEST MESSAGE DEBUG)
+        {0x0CFE30,		90,	    8,		95,		3,		ECU_CABIN,	1,		0},	// PGN_65072_AV0C
+        {0x0CFE31,		90,	    8,		98,		3,		ECU_CABIN,	1,		0},	// PGN_65072_AV1C
+        {0x0CFE32,		90,	    8,		101,	3,		ECU_CABIN,	1,		0},	// PGN_65072_AV2C
+        {0x0CFE33,		90,	    8,		104,	3,		ECU_CABIN,	1,		0}	// PGN_65072_AV3C
 };
 
 const J1939_SPN spn_list[] = {
@@ -180,7 +189,9 @@ const J1939_SPN spn_list[] = {
         {56, 	4,		&j1939_db.pgn_65464_Proprietary_B_B8.spn_408_Knob_6_Push_Counter},
     // 0x18FFDF    ECU_0    PGN_65503_PROPB_DF (Danfoss steering controller status)
         {0, 	8,		&j1939_db.pgn_65503_Proprietary_B_DF.pvedcls_state},            // PVED-CLS State / Steering mode
-        {63, 	1,		&j1939_db.pgn_65503_Proprietary_B_DF.pvedcls_reset_request},    // PVED-CLS Soft Reset request
+        {63, 	1,		&j1939_db.pgn_65503_Proprietary_B_DF.reserved},                 // Reserved
+    // 0x0CFFDF    ECU_0    PGN_65503_PROPB_DF_LP (HMI controller proprietary COM)
+        {63, 	1,		&j1939_db.pgn_65503_Proprietary_B_DF_LP.pvedcls_reset_request},            // PVED-CLS Soft Reset request
     // 0x18FF99    ECU_0    PGN_65433_PROPB_99 (TEST MESSAGE DEBUG) TEST MESSAGE (8 datapoints)
         {0, 	8,		&j1939_db.pgn_65433_Proprietary_B_99.spn_901_Data_Field_1},
         {8, 	8,		&j1939_db.pgn_65433_Proprietary_B_99.spn_902_Data_Field_2},
@@ -190,7 +201,7 @@ const J1939_SPN spn_list[] = {
         {40, 	8,		&j1939_db.pgn_65433_Proprietary_B_99.spn_906_Data_Field_6},
         {48, 	8,		&j1939_db.pgn_65433_Proprietary_B_99.spn_907_Data_Field_7},
         {56, 	8,		&j1939_db.pgn_65433_Proprietary_B_99.spn_908_Data_Field_8},
-        // 0x0CFE30   ECU_0     PGN_65072_AV0C
+    // 0x0CFE30   ECU_0     PGN_65072_AV0C
 		{0, 	8,		&j1939_db.pgn_65072_Auxilary_Valve_0_Cmd.isobus_a2110_auxilary_valve_port_flow_cmd},
         {16, 	4,		&j1939_db.pgn_65072_Auxilary_Valve_0_Cmd.isobus_a2111_auxilary_valve_state_cmd},
         {22, 	2,		&j1939_db.pgn_65072_Auxilary_Valve_0_Cmd.isobus_a2112_auxilary_valve_fail_safe_mode_cmd},
@@ -242,8 +253,8 @@ void Open_SAE_J1939_Transmit_DB(uint8_t ecu_sa, uint32_t current_timestamp) {
 					current_spn |= gen_dnc_bitmask8(spn_pos_bit % 8, spn_len_bit);
 					can_data_bytes[spn_pos_byte] &= current_spn;
 				} else if (spn_pos_byte + 1 == (spn_pos_bit + spn_len_bit - 1)/8) {	                                // parameter fits in two bytes
-					uint16_t current_spn = *(uint16_t*) spn_list[j].variable << spn_pos_bit % 8;                    // Bitshift kad atitiktu start bito posicija
-                    uint8_t current_spn_first_byte =  (uint8_t)((current_spn & 0xFF00) >> 8);                       //išskiriama į atskirus baitus kad butu galima atidėti start bita tik opirmam baitui
+					uint16_t current_spn = *(uint16_t*) spn_list[j].variable << spn_pos_bit % 8;                    // Bitshift kad atitiktu start bito pozicija
+                    uint8_t current_spn_first_byte =  (uint8_t)((current_spn & 0xFF00) >> 8);                       // išskiriama į atskirus baitus kad butu galima atidėti start bita tik pirmam baitui
                     uint8_t current_spn_second_byte = (uint8_t)(current_spn & 0x00FF);
                     current_spn_second_byte |= gen_dnc_bitmask8(spn_pos_bit % 8, 8-spn_pos_bit % 8);                // Maskuojami tik naudojami bitai
                     current_spn_first_byte |= gen_dnc_bitmask8(0, spn_len_bit - 8 + spn_pos_bit % 8);               // Maskuojami tik naudojami bitai
@@ -626,7 +637,7 @@ void usercode(void)
     }
     time_diff =  time_val - last_time1;
     if(time_diff >= 500){
-        //send speed CAN message
+        //send MMI message
         uint16_t crc_result;
         uint8_t offRoad = 0x00;
         uint8_t can_message1[8];
@@ -655,19 +666,43 @@ void usercode(void)
         os_timestamp(&last_time1, OS_1ms);
     }
 
-    // PVED-CLS Operation status message gateway:
-    // Reikia persiųsti status iš CAN2 į CAN1 0x18FFDF28 adresą.
-    j1939_db.pgn_65503_Proprietary_B_DF.pvedcls_state = can_db_get_value(PVED_CLS_Current_Op_State);
 
-    // Jeigu CAN1 aptinkamas 0x18FFDF28 paskutinis bit'as 1 - siunčiama reset comanda į CAN2
-    if (j1939_db.pgn_65503_Proprietary_B_DF.pvedcls_reset_request = 1) {
-        os_can_send_msg(CAN_BUS_2, 0x0CEF00FC, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
+
+    // PVED-CLS Operation status message gateway:
+    // Reikia persiųsti status iš CAN2(Autosteering) į CAN1(Vehicle) 0x18FFDF28 adresą.
+    j1939_db.pgn_65503_Proprietary_B_DF.pvedcls_state = can_db_get_value(PVED_CLS_Current_Op_State);
+    // j1939_db.pgn_65433_Proprietary_B_99.spn_901_Data_Field_1 = can_db_get_value(PVED_CLS_Current_Op_State);                 // TST CAN ID: 0x18FF9931
+    // j1939_db.pgn_65433_Proprietary_B_99.spn_902_Data_Field_2 = j1939_db.pgn_65503_Proprietary_B_DF.pvedcls_state;
+    // j1939_db.pgn_65433_Proprietary_B_99.spn_908_Data_Field_8 = j1939_db.pgn_65503_Proprietary_B_DF_LP.pvedcls_reset_request;
+
+    // Jeigu kairys knob'as yra atsuktas į SET mygtuką. nuspaudžiam mygtuką ir aktyvuojasi PVED-CLS reset'as
+    if (j1939_db.pgn_65464_Proprietary_B_B8.spn_405_Knob_5_Rotate >= 0x60 && j1939_db.pgn_65464_Proprietary_B_B8.spn_405_Knob_5_Rotate < 0x70){
+        if(j1939_db.pgn_65463_Proprietary_B_B7.spn_303_Button_4_Push){
+            // Vykdomas uždelsimas
+            time_diff2 =  time_val - last_time2;
+            if(time_diff2 >= 5000){
+                // Sending Soft-Reset message to Danfoss PVED-CLS Main ECU
+                os_can_send_msg(CAN_BUS_2, 0x18EF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
+                // os_can_send_msg(CAN_BUS_0, 0x18FF9931, 1, 8, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xAB, 0xFF, 0xCC); // Test message
+                os_timestamp(&last_time2, OS_1ms);
+            }
+
+        } else {
+            // j1939_db.pgn_65433_Proprietary_B_99.spn_906_Data_Field_6 = 0xFF;
+        }
     }
+    // Jeigu CAN1 aptinkamas 0x0CFFDF28 paskutinis bit'as 1 - siunčiama reset comanda į CAN2
+    // if (j1939_db.pgn_65503_Proprietary_B_DF_LP.pvedcls_reset_request) {
+    //     os_can_send_msg(CAN_BUS_2, 0x18EF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
+    //     j1939_db.pgn_65433_Proprietary_B_99.spn_906_Data_Field_6 = 0xAB;
+    //     os_can_send_msg(CAN_BUS_1, 0x18FF9931, 1, 8, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xAB, 0xFF, 0xFF);
+    // }
     // MMI Messages END -----------------------------------------------------------
 
     os_timestamp(&time_val, OS_1ms);
 
-    Open_SAE_J1939_Transmit_DB(0x31, time_val);
+    // Transmit J1939 messages with 0x31 as the source address (at the end of CAN msg)
+    Open_SAE_J1939_Transmit_DB(ECU_SA, time_val);
 }
     //-----------------------------------------------------------
     //-----------------------------------------------------------

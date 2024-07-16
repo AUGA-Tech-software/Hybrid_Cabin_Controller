@@ -3,7 +3,7 @@
 *   \brief    Functions of operating system for initialization
 *             and access to ports and pins of processor
 *
-*   \date     2024-07-09    \author   DS/
+*   \date     2024-07-16    \author   DS/
 *
 *   \platform HCS08DZ / HCS12XE / HCS12XD / HCS12P
 * --------------------------------------------------------------------------*/

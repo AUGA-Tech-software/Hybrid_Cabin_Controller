@@ -6,7 +6,7 @@
 /** \file     os_io_tables.h
 *   \brief    Tables for definitions of I/O ports and their properties
 *
-*   \date     2024-07-09    \author   DS/
+*   \date     2024-07-16    \author   DS/
 *
 *   \platform HCS08DZ / HCS12XE / HCS12XD / HCS12P
 * --------------------------------------------------------------------------
