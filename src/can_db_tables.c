@@ -2,7 +2,7 @@
 /** \file     can_db_tables.c
 *   \brief    CAN bus database
 *
-*   \date     2024-07-16    \author   DS/
+*   \date     2024-08-12    \author   DS/
 *
 *   \platform HCS08DZ / HCS12XE / HCS12XD / HCS12P
 * --------------------------------------------------------------------------*/
@@ -31,6 +31,15 @@
  //(16 Bit)              (0-63)                (1-32)                  (0=Intel, 1=Motorola)
  //-----------------------------------------------------------------------------------------------------------------
 {  CCVS                  ,8                    ,16         ,UINT       ,0          },  //Wheel_Based_Vehicle_Speed
+{  EAMS1                 ,0                    ,2          ,UBYTE      ,0          },  //EA_Motor_EN_Status    
+{  EAMS1                 ,2                    ,4          ,UBYTE      ,0          },  //EA_Motor_Controller_Status_Reason
+{  EAMS1                 ,6                    ,2          ,UBYTE      ,0          },  //EA_Motor_Controller_COM
+{  EAMS1                 ,8                    ,16         ,UINT       ,0          },  //EA_Motor_Speed        
+{  EAMS1                 ,24                   ,16         ,UINT       ,0          },  //EA_Motor_Medium_Temperature
+{  EAMS1                 ,40                   ,16         ,UINT       ,0          },  //EA_Motor_Power        
+{  EAMS1                 ,56                   ,2          ,UBYTE      ,0          },  //EA_Motor_Service_Indicator
+{  EAMS1                 ,58                   ,2          ,UBYTE      ,0          },  //EA_Motor_Operating_Status
+{  EAMS1                 ,60                   ,4          ,UBYTE      ,0          },  //EA_Motor_Instance_of_Status_Data
 {  ETC2_F                ,24                   ,8          ,UBYTE      ,0          },  //GBF_CURRENT_GEAR      
 {  ETC2_R                ,24                   ,8          ,UBYTE      ,0          },  //GBR_CURRENT_GEAR      
 {  LEVER_BACK            ,8                    ,4          ,UBYTE      ,0          },  //LVR_BCK_UP_CNT        
@@ -95,6 +104,7 @@
 {  PROPB_02              ,44                   ,4          ,UBYTE      ,0          },  //JOYSTIC_AUX3_SETSPEED_Down
 {  PROPB_02              ,48                   ,4          ,UBYTE      ,0          },  //JOYSTIC_AUX4_SETSPEED_Up
 {  PROPB_02              ,52                   ,4          ,UBYTE      ,0          },  //JOYSTIC_AUX4_SETSPEED_Down
+{  PVED_RST_RQST         ,63                   ,1          ,UBYTE      ,0          },  //PVED_Reset_request    
 {  PVED_STATUS           ,0                    ,8          ,UBYTE      ,0          },  //PVED_CLS_Current_Op_State
 };
 
@@ -132,8 +142,10 @@
 {  CAN_BUS_1             ,0x10534D4C           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //PNL_53                
 {  CAN_BUS_1             ,0x10B14D4C           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //PNL_B1                
 {  CAN_BUS_1             ,0x10B24D4C           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //PNL_B2                
-{  CAN_BUS_1             ,0x18FEF15A           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //CCVS                  
+{  CAN_BUS_0             ,0x18FEF15A           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //CCVS                  
 {  CAN_BUS_2             ,0x18FF2013           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //PVED_STATUS           
+{  CAN_BUS_0             ,0x0CFFDF28           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //PVED_RST_RQST         
+{  CAN_BUS_0             ,0x18FC012E           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //EAMS1                 
 };
 
 

@@ -6,7 +6,7 @@
 /** \file     can_db_tables.h
 *   \brief    CAN bus database
 *
-*   \date     2024-07-16    \author   DS/
+*   \date     2024-08-12    \author   DS/
 *
 *   \platform HCS08DZ / HCS12XE / HCS12XD / HCS12P
 * --------------------------------------------------------------------------
@@ -47,16 +47,16 @@
 
 #ifdef USER_CAN_FILTER_ACTIVE
 
-    #define CAN0_FILTER_A 0x18F00504
-    #define CAN0_FILTER_B 0x18FF0228
-    #define CAN0_MASK_A   0x00000007
-    #define CAN0_MASK_B   0x00000000
+    #define CAN0_FILTER_A 0x18FF0228
+    #define CAN0_FILTER_B 0x0CFFDF28
+    #define CAN0_MASK_A   0x000F072F
+    #define CAN0_MASK_B   0x14012E72
     #define CAN0_MASK_DIVISION BIOS_CAN_ID_EXT_A_AND_B
 
-    #define CAN1_FILTER_A 0x104E4D4C
-    #define CAN1_FILTER_B 0x18FEF15A
-    #define CAN1_MASK_A   0x00FF0000
-    #define CAN1_MASK_B   0x00000000
+    #define CAN1_FILTER_A 0x104F4D4C
+    #define CAN1_FILTER_B 0x10B14D4C
+    #define CAN1_MASK_A   0x001F0000
+    #define CAN1_MASK_B   0x00870000
     #define CAN1_MASK_DIVISION BIOS_CAN_ID_EXT_A_AND_B
 
     #define CAN2_FILTER_A 0x18FF2013
@@ -129,6 +129,15 @@ typedef enum
 typedef enum
 {
     Wheel_Based_Vehicle_Speed  = 0,
+    EA_Motor_EN_Status         ,
+    EA_Motor_Controller_Status_Reason,
+    EA_Motor_Controller_COM    ,
+    EA_Motor_Speed             ,
+    EA_Motor_Medium_Temperature,
+    EA_Motor_Power             ,
+    EA_Motor_Service_Indicator ,
+    EA_Motor_Operating_Status  ,
+    EA_Motor_Instance_of_Status_Data,
     GBF_CURRENT_GEAR           ,
     GBR_CURRENT_GEAR           ,
     LVR_BCK_UP_CNT             ,
@@ -193,6 +202,7 @@ typedef enum
     JOYSTIC_AUX3_SETSPEED_Down ,
     JOYSTIC_AUX4_SETSPEED_Up   ,
     JOYSTIC_AUX4_SETSPEED_Down ,
+    PVED_Reset_request         ,
     PVED_CLS_Current_Op_State  ,
     CAN_DP_MAX            
 }can_dp_id;
@@ -222,7 +232,9 @@ typedef enum
     PNL_B2                  = 16,
     CCVS                    = 17,
     PVED_STATUS             = 18,
-    CAN_BLOCK_MAX           = 19
+    PVED_RST_RQST           = 19,
+    EAMS1                   = 20,
+    CAN_BLOCK_MAX           = 21
 } can_block_id;
 
 

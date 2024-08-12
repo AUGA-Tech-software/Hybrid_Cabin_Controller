@@ -2,8 +2,8 @@
 /// \file     user_code.c
 /// \brief    user code
 /// \author   R. Bacevicius / D. Vaitiekus
-/// \date     2024-07-11
-/// \version  2.0.1
+/// \date     2024-08-08
+/// \version  2.0.2
 /// \comment  file to write user specific code
 //--------------------------------------------------------------------------
 // AUGA Tech Hybrid M1 Tractror Cabin Controller Software on MRS M3600
@@ -17,17 +17,29 @@
 // --------------------------------------------------------------------------------
 // Example variables
 // --------------------------------------------------------------------------------
-#define SoftwareVersion "V2.0.1"                    // Version: Major.Minor.Daily
-#define SoftwareDate "2024.07.11"
+#define SoftwareVersion "V2.0.2"                    // Version: Major.Minor.Daily
+#define SoftwareDate "2024.08.12"
 #define ECU_SA 0x31                                 // Cabin Controller ECU Source Address
 
 // Can bus definitions:
-// CAN_BUS_0 - Vehicle CAN
-// CAN_BUS_1 - BTN Panel CAN (CLAAS Joystick and buttons)
-// CAN_BUS_2 - Autosteering CAN (Danfoss and Raven)
+#define CAN_BUS_0 0     // Vehicle CAN
+#define CAN_BUS_1 1     // BTN Panel CAN (CLAAS Joystick and buttons)
+#define CAN_BUS_2 2     // Autosteering CAN (Danfoss and Raven)
+
+
 
 uint16_t uint16_1, uint16_2, uint16_3, uint16_4;    // For DEBUG
 uint8_t uint8_1, uint8_2, uint8_3, uint8_4;         // For DEBUG
+
+uint8_t hydraulic_motor_instance = 0;
+uint16_t hydraulic_motor_Speed = 0;
+
+    // Extract higher byte
+uint8_t motor_speed_high_byte = 0;
+
+    // Extract lower byte
+uint8_t motor_speed_low_byte = 0;
+
 
 uint32_t time_val, last_time, last_time1, last_time2, time_diff, time_diff2;
 uint8_t i, j;
@@ -57,6 +69,7 @@ J1939_db j1939_db;
 uint32_t LastSampleTimeAux;
 uint32_t sampleSumJoy=0,sampleSumJoy2=0, sampleSumRef=0, sampleSumAux4 = 0, sampleSumAux3 = 0, sampleSumAux2 = 0, sampleSumAux1 = 0, sampleCountAux = 0;
 J1939_PGN pgn_list[] = {
+                                                                                // These messages are WRITE ONLY. If you want to read CAN, use: can_db_get_value(CAN_DATA_POINT)
 		// PGN			RR		DL		SPN_st	SPN_len	ECU_ID		TXEn	nextTX
 		{0x0CFDD6,		90,		8,		0,		16,		ECU_CABIN,	1,		0},	// PGN_64982_BJM1
         {0x0CFDD8,		90,		8,		16,		9,		ECU_CABIN,	1,		0},	// PGN_64984_BJM2
@@ -76,12 +89,11 @@ J1939_PGN pgn_list[] = {
         {0x18FFB7,		90, 	8,		70,		6,		ECU_CABIN,	1,		0},	// PGN_65463_PROPB_B7 (BTN panel (Buttons), Menu buttons msg)
         {0x18FFB8,		90, 	8,		76,		8,		ECU_CABIN,	1,		0},	// PGN_65464_PROPB_B8 (BTN panel (Knobs), Menu knobs msg)
         {0x18FFDF,		90, 	8,		84,		2,		ECU_CABIN,	1,		0},	// PGN_65503_PROPB_DF (Danfoss steering controller status)
-        {0x0CFFDF,		90, 	8,		86,		1,		ECU_CABIN,	0,		0},	// PGN_65503_PROPB_DF_LP (HMI controller proprietary COM) Read-Only
-        {0x18FF99,		90, 	8,		87,		8,		ECU_CABIN,	0,		0},	// PGN_65433_PROPB_99 (TEST MESSAGE DEBUG)
-        {0x0CFE30,		90,	    8,		95,		3,		ECU_CABIN,	1,		0},	// PGN_65072_AV0C
-        {0x0CFE31,		90,	    8,		98,		3,		ECU_CABIN,	1,		0},	// PGN_65072_AV1C
-        {0x0CFE32,		90,	    8,		101,	3,		ECU_CABIN,	1,		0},	// PGN_65072_AV2C
-        {0x0CFE33,		90,	    8,		104,	3,		ECU_CABIN,	1,		0}	// PGN_65072_AV3C
+        {0x18FF99,		90, 	8,		86,		8,		ECU_CABIN,	0,		0},	// PGN_65433_PROPB_99 (TEST MESSAGE DEBUG)
+        {0x0CFE30,		90,	    8,		94,		3,		ECU_CABIN,	1,		0},	// PGN_65072_AV0C
+        {0x0CFE31,		90,	    8,		97,		3,		ECU_CABIN,	1,		0},	// PGN_65072_AV1C
+        {0x0CFE32,		90,	    8,		100,	3,		ECU_CABIN,	1,		0},	// PGN_65072_AV2C
+        {0x0CFE33,		90,	    8,		103,	3,		ECU_CABIN,	1,		0}	// PGN_65072_AV3C
 };
 
 const J1939_SPN spn_list[] = {
@@ -119,7 +131,7 @@ const J1939_SPN spn_list[] = {
     //0x18FF00   ECU_0     PGN_65280_PROPB_00
         {0, 	2,		&j1939_db.pgn_65280_Proprietary_B_00.spn_1504_operator_seat_sw},
         {16, 	16,		&j1939_db.pgn_65280_Proprietary_B_00.joystick_Y_possition_2},
-    // 0x00FEF1   ECU_0     PGN_65265_CCVS1
+    // 0x18FEF1   ECU_0     PGN_65265_CCVS1
 		{0, 	2,		&j1939_db.pgn_65265_Cruise_Control_Vehicle_Speed_1.spn_69_two_speed_axle_sw},
         {2, 	2,		&j1939_db.pgn_65265_Cruise_Control_Vehicle_Speed_1.spn_70_parking_brake_sw},
         {28, 	2,		&j1939_db.pgn_65265_Cruise_Control_Vehicle_Speed_1.spn_597_brake_sw},
@@ -607,7 +619,7 @@ void usercode(void)
 
     //j1939_db.pgn_65241_AUXIO1.spn_1083_auxiliary_IO_channel_1 = os_algin_mv(A_JOYST_POS1); //used for debuging analog values
 
-    //danfos system messages MMI interface
+    //MMI system messages MMI interface for Danfoss PVED-CLS
     //-----------------------------------------------------------
     os_timestamp(&time_val, OS_1ms);
     time_diff =  time_val - last_time;
@@ -676,27 +688,84 @@ void usercode(void)
     // j1939_db.pgn_65433_Proprietary_B_99.spn_908_Data_Field_8 = j1939_db.pgn_65503_Proprietary_B_DF_LP.pvedcls_reset_request;
 
     // Jeigu kairys knob'as yra atsuktas į SET mygtuką. nuspaudžiam mygtuką ir aktyvuojasi PVED-CLS reset'as
-    if (j1939_db.pgn_65464_Proprietary_B_B8.spn_405_Knob_5_Rotate >= 0x60 && j1939_db.pgn_65464_Proprietary_B_B8.spn_405_Knob_5_Rotate < 0x70){
-        if(j1939_db.pgn_65463_Proprietary_B_B7.spn_303_Button_4_Push){
-            // Vykdomas uždelsimas
+    // if (j1939_db.pgn_65464_Proprietary_B_B8.spn_405_Knob_5_Rotate >= 0x60 && j1939_db.pgn_65464_Proprietary_B_B8.spn_405_Knob_5_Rotate < 0x70){
+    //     if(j1939_db.pgn_65463_Proprietary_B_B7.spn_303_Button_4_Push){
+    //         // Vykdomas uždelsimas, kad nebūtų netyčinio pakartotino requesto
+    //         time_diff2 =  time_val - last_time2;
+    //         if(time_diff2 >= 8000){
+    //             // Sending Soft-Reset message to Danfoss PVED-CLS Main ECU
+    //             os_can_send_msg(CAN_BUS_2, 0x18EF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
+    //             // os_can_send_msg(CAN_BUS_0, 0x18FF9931, 1, 8, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xAB, 0xFF, 0xCC); // Test message
+    //             os_timestamp(&last_time2, OS_1ms);
+    //         }
+
+    //     } else {
+    //         // j1939_db.pgn_65433_Proprietary_B_99.spn_906_Data_Field_6 = 0xFF;
+    //     }
+    // }
+    // Jeigu CAN0 aptinkamas 0x0CFFDF28 paskutinis bit'as 1 - siunčiama reset comanda į CAN2
+    if (can_db_get_value(PVED_Reset_request)) {
+        // Vykdomas uždelsimas, kad nebūtų netyčinio pakartotino requesto
             time_diff2 =  time_val - last_time2;
-            if(time_diff2 >= 5000){
+            if(time_diff2 >= 8000){
                 // Sending Soft-Reset message to Danfoss PVED-CLS Main ECU
                 os_can_send_msg(CAN_BUS_2, 0x18EF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
-                // os_can_send_msg(CAN_BUS_0, 0x18FF9931, 1, 8, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xAB, 0xFF, 0xCC); // Test message
+                os_can_send_msg(CAN_BUS_0, 0x18EF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, 0xFF, 0xAA, 0xCC); // Test message in VEH CAN
+                // j1939_db.pgn_65433_Proprietary_B_99.spn_905_Data_Field_5 = 0xCC;
                 os_timestamp(&last_time2, OS_1ms);
             }
+        // j1939_db.pgn_65433_Proprietary_B_99.spn_906_Data_Field_6 = 0xAB;
+    }
 
-        } else {
-            // j1939_db.pgn_65433_Proprietary_B_99.spn_906_Data_Field_6 = 0xFF;
+    
+
+    // Danfoss PVED-CLS Operation status
+    // 0x00 - On-Road
+    // 0x10 - Off-Road Reaction
+    // 0x11 - Off-Road Non-reaction
+    // 0x20...0x24 STW Programs
+    // 0x30...0x34 AUX Programs
+    // 0x40 - GPS Steering
+    // 0x41 - GPS2 Steering
+    // 0xD0 - Off-Road Safety-Check
+    // 0xE0 - Service mode - Direct Output Control
+    // 0xE1 - Service mode - Wheel angle sensor calibration
+    // 0xE2 - Service mode – Spool calibration
+    // 0xE3 - Service mode – Joystick calibration
+    // 0xF0 - Initialization
+    // 0xFF - Safe State
+
+    hydraulic_motor_instance = can_db_get_value(EA_Motor_Instance_of_Status_Data);
+    hydraulic_motor_Speed = can_db_get_value(EA_Motor_Speed) / 2; // 0.5 rpm per bit
+
+    // Extract higher byte
+    // motor_speed_high_byte = (hydraulic_motor_Speed >> 8) & 0xFF;
+    // Extract lower byte
+    // motor_speed_low_byte = hydraulic_motor_Speed & 0xFF;
+
+    // os_can_send_msg(CAN_BUS_0, 0x18FF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, motor_speed_high_byte, motor_speed_low_byte, hydraulic_motor_instance); // Test message in VEH CAN
+
+    // Check if hydraulics are requested
+    // Read Electrified Accesory Motor Instance of Status Data parameter of required hydraulics engine (Steering system)
+    if (hydraulic_motor_instance == 1) {
+        // Read motor speed
+        if (hydraulic_motor_Speed > 550) {
+        // Check if PVED-CLS is waiting in Safe state
+            if (can_db_get_value(PVED_CLS_Current_Op_State) == 0xFF) {
+                // Vykdomas uždelsimas, kad nebūtų netyčinio pakartotino requesto
+                time_diff2 =  time_val - last_time2;
+                if(time_diff2 >= 30000){
+                    // Sending Soft-Reset message to Danfoss PVED-CLS Main ECU
+                    os_can_send_msg(CAN_BUS_2, 0x18EF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
+                    // os_can_send_msg(CAN_BUS_0, 0x18EF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF); // Test message in VEH CAN
+                    os_timestamp(&last_time2, OS_1ms);
+                }
+            }
         }
     }
-    // Jeigu CAN1 aptinkamas 0x0CFFDF28 paskutinis bit'as 1 - siunčiama reset comanda į CAN2
-    // if (j1939_db.pgn_65503_Proprietary_B_DF_LP.pvedcls_reset_request) {
-    //     os_can_send_msg(CAN_BUS_2, 0x18EF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
-    //     j1939_db.pgn_65433_Proprietary_B_99.spn_906_Data_Field_6 = 0xAB;
-    //     os_can_send_msg(CAN_BUS_1, 0x18FF9931, 1, 8, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xAB, 0xFF, 0xFF);
-    // }
+    // jeigu hydraulics_requested_rpm yra daugiau nei 600, vadinasi reikalinga hydraulika -> tikrinam PVED state'ą.
+    // Jeigu pved state'as yra kitoks nei offroad_reaction -> siunčiam resetą.
+
     // MMI Messages END -----------------------------------------------------------
 
     os_timestamp(&time_val, OS_1ms);
