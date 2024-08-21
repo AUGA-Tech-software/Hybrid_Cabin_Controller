@@ -2,7 +2,7 @@
 /** \file     can_db_tables.c
 *   \brief    CAN bus database
 *
-*   \date     2024-08-12    \author   DS/
+*   \date     2024-08-21    \author   DS/
 *
 *   \platform HCS08DZ / HCS12XE / HCS12XD / HCS12P
 * --------------------------------------------------------------------------*/

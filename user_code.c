@@ -2,8 +2,8 @@
 /// \file     user_code.c
 /// \brief    user code
 /// \author   R. Bacevicius / D. Vaitiekus
-/// \date     2024-08-08
-/// \version  2.0.2
+/// \date     2024-08-21
+/// \version  2.0.3
 /// \comment  file to write user specific code
 //--------------------------------------------------------------------------
 // AUGA Tech Hybrid M1 Tractror Cabin Controller Software on MRS M3600
@@ -17,8 +17,8 @@
 // --------------------------------------------------------------------------------
 // Example variables
 // --------------------------------------------------------------------------------
-#define SoftwareVersion "V2.0.2"                    // Version: Major.Minor.Daily
-#define SoftwareDate "2024.08.12"
+#define SoftwareVersion "V2.0.3"                    // Version: Major.Minor.Daily
+#define SoftwareDate "2024.08.21"
 #define ECU_SA 0x31                                 // Cabin Controller ECU Source Address
 
 // Can bus definitions:
