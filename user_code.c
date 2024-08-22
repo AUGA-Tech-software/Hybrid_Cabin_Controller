@@ -56,7 +56,7 @@ uint16_t sensor_outputV = 0;
 uint32_t average = 0;
 uint32_t last_sample_time;
 bool AUX1_flag = FALSE, AUX2_flag = FALSE, AUX3_flag = FALSE, AUX4_flag = FALSE;
-uint8_t Left_cnt = 0, Up_cnt = 0, Right_cnt = 0, Down_cnt = 0, BackUp_cnt = 0, BackDown_cnt = 0;
+uint8_t Left_cnt = 0,Left_cnt2 = 0, Up_cnt = 0, Right_cnt = 0,Right_cnt2 = 0, Down_cnt = 0, BackUp_cnt = 0, BackDown_cnt = 0;
 uint16_t crc16_table[16] = {
     0x0000, 0xC86C, 0x58B4, 0x90D8, 0xB168, 0x7904, 0xE9DC, 0x21B0,
     0xAABC, 0x62D0, 0xF208, 0x3A64, 0x1BD4, 0xD3B8, 0x4360, 0x8B0C
@@ -315,18 +315,18 @@ void Auxilary_Section_Send_Ctrl_Cmd(PGN_65072_AVC *aux_valve_section, uint16_t v
     }
 }
 //Function for operating with AUXilary analog swiches
-void Auxilary_Section_Send_Ctrl_Cmd_Joystick(PGN_65072_AVC *aux_valve_section, uint16_t value, bool Flag, uint8_t speed_Up, uint8_t speed_Down) {
-    if (value == 1 && !Flag) {
+void Auxilary_Section_Send_Ctrl_Cmd_Joystick(PGN_65072_AVC *aux_valve_section, uint16_t direction, uint8_t speed_Up, uint8_t speed_Down) {
+    if (direction == 1) {
         aux_valve_section->isobus_a2110_auxilary_valve_port_flow_cmd = 25 * speed_Down ; //25 = 10 * 2.5 where 2.5 is isobus constant and 10 is to scale precentige
         aux_valve_section->isobus_a2111_auxilary_valve_state_cmd = 1;  // EXTEND DOWN
-    } else if (value == 2 && !Flag) {
+    } else if (direction == 2 ) {
         aux_valve_section->isobus_a2110_auxilary_valve_port_flow_cmd = 25 * speed_Up;
         aux_valve_section->isobus_a2111_auxilary_valve_state_cmd = 2;  // RETRACT UP
         
-    } else if (value == 3 && !Flag) {
+    } else if (direction == 3 ) {
         aux_valve_section->isobus_a2110_auxilary_valve_port_flow_cmd = 0;
         aux_valve_section->isobus_a2111_auxilary_valve_state_cmd = 3;  // Float   
-    }else if (!Flag ) {
+    }else  {
         aux_valve_section->isobus_a2110_auxilary_valve_port_flow_cmd = 0;
         aux_valve_section->isobus_a2111_auxilary_valve_state_cmd = 0;  // BLOCK
     }
@@ -334,37 +334,58 @@ void Auxilary_Section_Send_Ctrl_Cmd_Joystick(PGN_65072_AVC *aux_valve_section, u
 }
 
 //Function for operating with programables joystick buttons
-void Programable_Button_Action(uint8_t ButtonNr, uint8_t ButtonState, uint8_t *counter , uint8_t Cancounter){ 
-    uint16_t speed = 4;
+void Programable_Button_Action(uint8_t ButtonNr, uint8_t ButtonState, bool half, uint8_t *counter , uint8_t Cancounter){ 
+    uint16_t direction = 4;
     uint16_t CANcount =  can_db_get_value(Cancounter);
-    if(*counter < CANcount || ( *counter == 15 && CANcount== 0)){
+    uint8_t speedUp1, speedUp2, speedUp3, speedUp4;
+    uint8_t speedDown1, speedDown2, speedDown3, speedDown4;
+    if(*counter < CANcount || ( *counter == 15 && CANcount == 0)){
          if ((ButtonNr == 1 || ButtonNr == 3 || ButtonNr == 5 || ButtonNr == 7) && ButtonState == 1){
-                speed = 1;
+                direction = 1;
             } else if((ButtonNr == 2 || ButtonNr == 4 || ButtonNr == 6 || ButtonNr == 8) && ButtonState == 1){ 
-                speed = 2;
+                direction = 2;
             } else {
-                speed = 0;
+                direction = 0;
             }
-             *counter = CANcount;
+        *counter = CANcount;
+        if (half){
+            speedUp1 = can_db_get_value(JOYSTIC_AUX1_SETSPEED_Up)/2;   
+            speedDown1 = can_db_get_value(JOYSTIC_AUX1_SETSPEED_Down)/2;   
+            speedUp2 = can_db_get_value(JOYSTIC_AUX2_SETSPEED_Up)/2;   
+            speedDown2 = can_db_get_value(JOYSTIC_AUX2_SETSPEED_Down)/2;   
+            speedUp3 = can_db_get_value(JOYSTIC_AUX3_SETSPEED_Up)/2;   
+            speedDown3 = can_db_get_value(JOYSTIC_AUX3_SETSPEED_Down)/2;   
+            speedUp4 = can_db_get_value(JOYSTIC_AUX4_SETSPEED_Up)/2;   
+            speedDown4 = can_db_get_value(JOYSTIC_AUX4_SETSPEED_Down)/2;   
+        } else{
+            speedUp1 = can_db_get_value(JOYSTIC_AUX1_SETSPEED_Up);
+            speedDown1 = can_db_get_value(JOYSTIC_AUX1_SETSPEED_Down);
+            speedUp2 = can_db_get_value(JOYSTIC_AUX2_SETSPEED_Up);
+            speedDown2 = can_db_get_value(JOYSTIC_AUX2_SETSPEED_Down);
+            speedUp3 = can_db_get_value(JOYSTIC_AUX3_SETSPEED_Up);
+            speedDown3 = can_db_get_value(JOYSTIC_AUX3_SETSPEED_Down);
+            speedUp4 = can_db_get_value(JOYSTIC_AUX4_SETSPEED_Up);
+            speedDown4 = can_db_get_value(JOYSTIC_AUX4_SETSPEED_Down);
+        }
         switch (ButtonNr){
             case 0:
                 //Do nothing
                 break;
             case 1:
             case 2:
-                Auxilary_Section_Send_Ctrl_Cmd_Joystick(&j1939_db.pgn_65072_Auxilary_Valve_0_Cmd, speed, AUX1_flag,can_db_get_value(JOYSTIC_AUX1_SETSPEED_Up),can_db_get_value(JOYSTIC_AUX1_SETSPEED_Down));
+                Auxilary_Section_Send_Ctrl_Cmd_Joystick(&j1939_db.pgn_65072_Auxilary_Valve_0_Cmd, direction,speedUp1,speedDown1);
                 break;
             case 3:
             case 4:
-                Auxilary_Section_Send_Ctrl_Cmd_Joystick(&j1939_db.pgn_65072_Auxilary_Valve_1_Cmd, speed, AUX2_flag,can_db_get_value(JOYSTIC_AUX2_SETSPEED_Up),can_db_get_value(JOYSTIC_AUX2_SETSPEED_Down));
+                Auxilary_Section_Send_Ctrl_Cmd_Joystick(&j1939_db.pgn_65072_Auxilary_Valve_1_Cmd, direction,speedUp2,speedDown2);
                 break;
             case 5:
             case 6:
-                Auxilary_Section_Send_Ctrl_Cmd_Joystick(&j1939_db.pgn_65072_Auxilary_Valve_2_Cmd, speed, AUX3_flag,can_db_get_value(JOYSTIC_AUX3_SETSPEED_Up),can_db_get_value(JOYSTIC_AUX3_SETSPEED_Down));
+                Auxilary_Section_Send_Ctrl_Cmd_Joystick(&j1939_db.pgn_65072_Auxilary_Valve_2_Cmd, direction,speedUp3,speedDown3);
                 break;
             case 7:
             case 8:
-                Auxilary_Section_Send_Ctrl_Cmd_Joystick(&j1939_db.pgn_65072_Auxilary_Valve_3_Cmd, speed, AUX4_flag,can_db_get_value(JOYSTIC_AUX4_SETSPEED_Up),can_db_get_value(JOYSTIC_AUX4_SETSPEED_Down));
+                Auxilary_Section_Send_Ctrl_Cmd_Joystick(&j1939_db.pgn_65072_Auxilary_Valve_3_Cmd, direction,speedUp4,speedDown4);
                 break;
             default:
                 break;
@@ -561,7 +582,7 @@ void usercode(void)
             average = ((average-sensor_outputV)*100)/1538;  //From datasheet sensitivity 15.38 bar/mV
             j1939_db.pgn_65277_Alternate_Fuel_1.spn_159_engine_gaseous_fuel_supply_presure_1 = (uint16_t)average*2; // /2 becouse J1939 gain is 0,5
         } else {
-            j1939_db.pgn_65277_Alternate_Fuel_1.spn_159_engine_gaseous_fuel_supply_presure_1 = 0; //Value below 10% of sensor's output voltage
+            j1939_db.pgn_65277_Alternate_Fuel_1.spn_159_engine_gaseous_fuel_supply_presure_1 =0; //Value below 10% of sensor's output voltage
         }
         // Reset the sum and count for the next second
         sample_sum = 0;
@@ -609,13 +630,20 @@ void usercode(void)
     Auxilary_Section_Send_Ctrl_Cmd(&j1939_db.pgn_65072_Auxilary_Valve_3_Cmd, os_algin_mv(A_AUX4_SIGN2) , &AUX4_flag, can_db_get_value(JOYSTIC_AUX4_SETSPEED_Up),can_db_get_value(JOYSTIC_AUX4_SETSPEED_Down));
     */
     //Programable joystick button commands: 
-
-    Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_1),j1939_db.pgn_64982_Basic_Joystick_Message_1.spn_2693_button_9_pressed, &Left_cnt, LVR_SR_LEFT_CNT);
-    Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_2),j1939_db.pgn_64982_Basic_Joystick_Message_1.spn_2691_button_7_pressed, &Up_cnt, LVR_SR_UP_CNT);
-    Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_3),j1939_db.pgn_64982_Basic_Joystick_Message_1.spn_2695_button_11_pressed, &Right_cnt, LVR_SR_RIGHT_CNT);
-    Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_4),j1939_db.pgn_64982_Basic_Joystick_Message_1.spn_2692_button_8_pressed, &Down_cnt, LVR_SR_DOWN_CNT);
-    Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_5),can_db_get_value(LVR_BCK_UP), &BackUp_cnt, LVR_BCK_UP_CNT);
-    Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_6),can_db_get_value(LVR_BCK_DOWN), &BackDown_cnt, LVR_BCK_DOWN_CNT);
+    if(j1939_db.pgn_64982_Basic_Joystick_Message_1.spn_2694_button_10_pressed){
+        Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_1),j1939_db.pgn_64982_Basic_Joystick_Message_1.spn_2694_button_10_pressed,0, &Left_cnt, LVR_SR_LEFT_CNT);
+    }else {
+        Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_1),j1939_db.pgn_64982_Basic_Joystick_Message_1.spn_2693_button_9_pressed,1, &Left_cnt, LVR_SR_LEFT_CNT);
+    }
+    if(j1939_db.pgn_64982_Basic_Joystick_Message_1.spn_2696_button_12_pressed){
+        Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_3),j1939_db.pgn_64982_Basic_Joystick_Message_1.spn_2696_button_12_pressed,0, &Right_cnt, LVR_SR_RIGHT_CNT);
+    } else{
+        Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_3),j1939_db.pgn_64982_Basic_Joystick_Message_1.spn_2695_button_11_pressed,1, &Right_cnt, LVR_SR_RIGHT_CNT);
+    }
+    Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_2),j1939_db.pgn_64982_Basic_Joystick_Message_1.spn_2691_button_7_pressed,0, &Up_cnt, LVR_SR_UP_CNT);
+    Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_4),j1939_db.pgn_64982_Basic_Joystick_Message_1.spn_2692_button_8_pressed,0, &Down_cnt, LVR_SR_DOWN_CNT);
+    Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_5),can_db_get_value(LVR_BCK_UP),0, &BackUp_cnt, LVR_BCK_UP_CNT);
+    Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_6),can_db_get_value(LVR_BCK_DOWN),0, &BackDown_cnt, LVR_BCK_DOWN_CNT);
 
     //j1939_db.pgn_65241_AUXIO1.spn_1083_auxiliary_IO_channel_1 = os_algin_mv(A_JOYST_POS1); //used for debuging analog values
 
