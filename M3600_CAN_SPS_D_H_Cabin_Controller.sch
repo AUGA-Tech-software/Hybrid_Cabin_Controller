@@ -468,11 +468,8 @@ For a hexadecimal number put a '0x' in front of it.
 <parts>
 <part name="FRAME1" library="CANgraph" deviceset="CAN_FRAME" device=""/>
 <part name="DIGIN1" library="CANgraph" deviceset="DIGIN" device="" value="DI_KL15"/>
-<part name="B1" library="CANgraph" deviceset="DELAY_OFF_RTR" device=""/>
 <part name="B2" library="CANgraph" deviceset="DELAY_OFF_RTR" device=""/>
-<part name="DIGOUT1" library="CANgraph" deviceset="DIGOUT" device="" value="DO_IGN_RELAY"/>
 <part name="DIGOUT2" library="CANgraph" deviceset="DIGOUT" device="" value="DO_POWER"/>
-<part name="VALUE#1" library="CANgraph" deviceset="VALUE" device="" value="10000"/>
 <part name="VALUE#2" library="CANgraph" deviceset="VALUE" device="" value="12000"/>
 </parts>
 <sheets>
@@ -485,22 +482,12 @@ For a hexadecimal number put a '0x' in front of it.
 <attribute name="GATE" x="-252.857" y="99.822" size="1.778" layer="95" font="vector" rot="R180"/>
 <attribute name="VALUE" x="-254" y="93.98" size="1.778" layer="96" font="vector"/>
 </instance>
-<instance part="B1" gate="DELAY_OFF_RTR" x="-223.52" y="99.06" smashed="yes">
-<attribute name="NAME" x="-228.6" y="102.235" size="1.778" layer="95" font="vector"/>
-</instance>
 <instance part="B2" gate="DELAY_OFF_RTR" x="-223.52" y="71.12" smashed="yes">
 <attribute name="NAME" x="-228.6" y="74.295" size="1.778" layer="95" font="vector"/>
-</instance>
-<instance part="DIGOUT1" gate="DIGOUT" x="-200.66" y="99.06" smashed="yes">
-<attribute name="GATE" x="-201.93" y="98.298" size="1.778" layer="95" font="vector"/>
-<attribute name="VALUE" x="-205.74" y="93.98" size="1.778" layer="96" font="vector"/>
 </instance>
 <instance part="DIGOUT2" gate="DIGOUT" x="-203.2" y="71.12" smashed="yes">
 <attribute name="GATE" x="-204.47" y="70.358" size="1.778" layer="95" font="vector"/>
 <attribute name="VALUE" x="-208.28" y="66.04" size="1.778" layer="96" font="vector"/>
-</instance>
-<instance part="VALUE#1" gate="VALUE" x="-231.14" y="93.98" smashed="yes">
-<attribute name="VALUE" x="-231.013" y="94.996" size="1.778" layer="96" font="vector" rot="R180"/>
 </instance>
 <instance part="VALUE#2" gate="VALUE" x="-231.14" y="66.04" smashed="yes">
 <attribute name="VALUE" x="-231.013" y="67.056" size="1.778" layer="96" font="vector" rot="R180"/>
@@ -512,32 +499,16 @@ For a hexadecimal number put a '0x' in front of it.
 <net name="N$1" class="0">
 <segment>
 <pinref part="DIGIN1" gate="DIGIN" pin="EIN_1"/>
-<pinref part="B1" gate="DELAY_OFF_RTR" pin="1_1"/>
 <wire x1="-246.38" y1="99.06" x2="-243.84" y2="99.06" width="0.1524" layer="91"/>
 <pinref part="B2" gate="DELAY_OFF_RTR" pin="1_1"/>
-<wire x1="-243.84" y1="99.06" x2="-228.6" y2="99.06" width="0.1524" layer="91"/>
 <wire x1="-228.6" y1="71.12" x2="-243.84" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="-243.84" y1="71.12" x2="-243.84" y2="99.06" width="0.1524" layer="91"/>
-<junction x="-243.84" y="99.06"/>
-</segment>
-</net>
-<net name="N$2" class="0">
-<segment>
-<pinref part="VALUE#1" gate="VALUE" pin="KONST_32"/>
-<pinref part="B1" gate="DELAY_OFF_RTR" pin="2_32"/>
 </segment>
 </net>
 <net name="N$3" class="0">
 <segment>
 <pinref part="VALUE#2" gate="VALUE" pin="KONST_32"/>
 <pinref part="B2" gate="DELAY_OFF_RTR" pin="2_32"/>
-</segment>
-</net>
-<net name="N$4" class="0">
-<segment>
-<pinref part="B1" gate="DELAY_OFF_RTR" pin="3_1"/>
-<pinref part="DIGOUT1" gate="DIGOUT" pin="AUS_1"/>
-<wire x1="-215.9" y1="99.06" x2="-205.74" y2="99.06" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$5" class="0">

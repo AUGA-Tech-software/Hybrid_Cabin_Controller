@@ -452,14 +452,10 @@ void usercode(void)
 {
     if (os_digin(DI_KL15) == 0) {
         j1939_db.pgn_64980_Cabin_Message_3.spn_10145_operator_key_sw_ignition_power = 0;
-        if (os_digin(DO_IGN_RELAY)) {
-            j1939_db.pgn_64980_Cabin_Message_3.spn_10147_operator_key_sw_delayed_battery_off = 1;
-        } else {
-            j1939_db.pgn_64980_Cabin_Message_3.spn_10147_operator_key_sw_delayed_battery_off = 0;
-        }
-    } else {
+        os_digout(DO_IGN_RELAY, 0);
+       } else {
+        os_digout(DO_IGN_RELAY, 1);
         j1939_db.pgn_64980_Cabin_Message_3.spn_10145_operator_key_sw_ignition_power = 1;
-        j1939_db.pgn_64980_Cabin_Message_3.spn_10147_operator_key_sw_delayed_battery_off = 0;
     }
 
     if (can_db_get_value(LVR_BTND_1)) {

@@ -29,7 +29,11 @@ C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\u
 C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(404): WARNING C2705: Possible loss of data
 C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(405): WARNING C2705: Possible loss of data
 C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(406): WARNING C2705: Possible loss of data
-C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(468): WARNING C2705: Possible loss of data
+C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(464): WARNING C2705: Possible loss of data
+C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(492): WARNING C2705: Possible loss of data
+C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(493): WARNING C2705: Possible loss of data
+C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(494): WARNING C2705: Possible loss of data
+C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(495): WARNING C2705: Possible loss of data
 C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(496): WARNING C2705: Possible loss of data
 C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(497): WARNING C2705: Possible loss of data
 C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(498): WARNING C2705: Possible loss of data
@@ -38,14 +42,10 @@ C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\u
 C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(501): WARNING C2705: Possible loss of data
 C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(502): WARNING C2705: Possible loss of data
 C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(503): WARNING C2705: Possible loss of data
-C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(504): WARNING C2705: Possible loss of data
 C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(505): WARNING C2705: Possible loss of data
 C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(506): WARNING C2705: Possible loss of data
 C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(507): WARNING C2705: Possible loss of data
-C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(509): WARNING C2705: Possible loss of data
-C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(510): WARNING C2705: Possible loss of data
-C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(511): WARNING C2705: Possible loss of data
-C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(522): WARNING C2705: Possible loss of data
-C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(523): WARNING C2705: Possible loss of data
-C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(524): WARNING C2705: Possible loss of data
+C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(518): WARNING C2705: Possible loss of data
+C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(519): WARNING C2705: Possible loss of data
+C:\Users\r.bacevicius\Projects\CabbinController\Hybrid_Cabin_Controller\src\..\user_code.c(520): WARNING C2705: Possible loss of data
 
