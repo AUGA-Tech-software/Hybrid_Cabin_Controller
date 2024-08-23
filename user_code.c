@@ -2,8 +2,8 @@
 /// \file     user_code.c
 /// \brief    user code
 /// \author   R. Bacevicius / D. Vaitiekus
-/// \date     2024-08-21
-/// \version  2.0.3
+/// \date     2024-08-23
+/// \version  2.0.5
 /// \comment  file to write user specific code
 //--------------------------------------------------------------------------
 // AUGA Tech Hybrid M1 Tractror Cabin Controller Software on MRS M3600
@@ -17,8 +17,8 @@
 // --------------------------------------------------------------------------------
 // Example variables
 // --------------------------------------------------------------------------------
-#define SoftwareVersion "V2.0.3"                    // Version: Major.Minor.Daily
-#define SoftwareDate "2024.08.21"
+#define SoftwareVersion "V2.0.5"                    // Version: Major.Minor.Daily
+#define SoftwareDate "2024.08.23"
 #define ECU_SA 0x31                                 // Cabin Controller ECU Source Address
 
 // Can bus definitions:
@@ -651,19 +651,25 @@ void usercode(void)
         //send speed CAN message
         uint16_t crc_result;
         uint8_t direction = 0xFC | gearR_en;
+        uint8_t can_msg_speed[8];
         uint16_t speed = can_db_get_value(Wheel_Based_Vehicle_Speed);
-        uint8_t can_message[8];
-        can_message[0] = 0xFF;
-        can_message[1] = direction;
-        can_message[2] = (speed >> 8) & 0xFF; // High byte of speed
-        can_message[3] = speed & 0xFF;        // Low byte of speed
-        can_message[4] = 0xFF;
-        can_message[5] = spd_counter;
-        crc_result = calculateCRC(can_message);
-        can_message[6] = crc_result & 0xFF; // Low byte
-        can_message[7] = crc_result >> 8; // High byte
-        os_can_send_msg(CAN_BUS_2, 0x0CFF40FB, 1, 8, can_message[0], can_message[1], can_message[2],can_message[3], can_message[4], can_message[5], can_message[6], can_message[7]);
-        os_can_send_msg(CAN_BUS_2, 0x0CFF41FB, 1, 8, can_message[0], can_message[1], can_message[2],can_message[3], can_message[4], can_message[5], can_message[6], can_message[7]);
+        // EXPERMENTAL: Limit max speed message (so the danfoss would not get errors, due to abnormal artifacts) 
+        // UNSAFE to leave this, due to possibility to enable autosteer at high speeds
+        // if(speed >= 6144) { // 6144 = 24km/h (6144 * 0.00390625)
+        //     speed = 6144;
+        // }
+        can_msg_speed[0] = 0xFF;
+        can_msg_speed[1] = direction;
+        can_msg_speed[2] = speed & 0xFF;        // Low byte of speed. 
+        can_msg_speed[3] = (speed >> 8) & 0xFF; // High byte of speed.
+        can_msg_speed[4] = 0xFF;
+        can_msg_speed[5] = spd_counter;
+        crc_result = calculateCRC(can_msg_speed);
+        can_msg_speed[6] = crc_result & 0xFF; // Low byte
+        can_msg_speed[7] = crc_result >> 8; // High byte
+        // os_can_send_msg(CAN_BUS_0, 0x18FFCC31, 1, 8, can_msg_speed[0], can_msg_speed[1], can_msg_speed[2],can_msg_speed[3], can_msg_speed[4], can_msg_speed[5], can_msg_speed[6], can_msg_speed[7]);
+        os_can_send_msg(CAN_BUS_2, 0x0CFF40FB, 1, 8, can_msg_speed[0], can_msg_speed[1], can_msg_speed[2],can_msg_speed[3], can_msg_speed[4], can_msg_speed[5], can_msg_speed[6], can_msg_speed[7]);
+        os_can_send_msg(CAN_BUS_2, 0x0CFF41FB, 1, 8, can_msg_speed[0], can_msg_speed[1], can_msg_speed[2],can_msg_speed[3], can_msg_speed[4], can_msg_speed[5], can_msg_speed[6], can_msg_speed[7]);
 
         spd_counter += 1;  
         if (spd_counter >= 256) {
@@ -673,27 +679,27 @@ void usercode(void)
     }
     time_diff =  time_val - last_time1;
     if(time_diff >= 500){
-        //send MMI message
+        //send MMI message (Man-Machine interface )
         uint16_t crc_result;
-        uint8_t offRoad = 0x00;
-        uint8_t can_message1[8];
-        if (os_digin(D_ROADTRAV_SW1))
-            offRoad = 0x10;
-        can_message1[0] = 0x00;
-        can_message1[1] = offRoad;
-        can_message1[2] = 0x7F;
-        can_message1[3] = 0x30;
-        can_message1[4] = 0xFF;
-        can_message1[5] = rsw_counter;
-        crc_result = calculateCRC(can_message1);
-        can_message1[6] = crc_result & 0xFF; // Low byte
-        can_message1[7] = crc_result >> 8; // High byte
-        os_can_send_msg(CAN_BUS_2, 0x0CEF13FC, 1, 8, can_message1[0], can_message1[1], can_message1[2],can_message1[3], can_message1[4], can_message1[5], can_message1[6], can_message1[7]);
-        can_message1[0] = 0x02;
-        crc_result = calculateCRC(can_message1);
-        can_message1[6] = crc_result & 0xFF; // Low byte
-        can_message1[7] = crc_result >> 8; // High byte
-        os_can_send_msg(CAN_BUS_2, 0x0CEF5AFC, 1, 8, can_message1[0], can_message1[1], can_message1[2],can_message1[3], can_message1[4], can_message1[5], can_message1[6], can_message1[7]);
+        uint8_t offRoadSwtch = 0x00;
+        uint8_t can_msg_MMI[8];
+        if (os_digin(D_ROADTRAV_SW1)) // Offroad/RoadTravel switch read
+            offRoadSwtch = 0x10;
+        can_msg_MMI[0] = 0x00;
+        can_msg_MMI[1] = offRoadSwtch;
+        can_msg_MMI[2] = 0x7F;
+        can_msg_MMI[3] = 0x30;
+        can_msg_MMI[4] = 0xFF;
+        can_msg_MMI[5] = rsw_counter;
+        crc_result = calculateCRC(can_msg_MMI);
+        can_msg_MMI[6] = crc_result & 0xFF; // Low byte
+        can_msg_MMI[7] = crc_result >> 8; // High byte
+        os_can_send_msg(CAN_BUS_2, 0x0CEF13FC, 1, 8, can_msg_MMI[0], can_msg_MMI[1], can_msg_MMI[2],can_msg_MMI[3], can_msg_MMI[4], can_msg_MMI[5], can_msg_MMI[6], can_msg_MMI[7]);
+        can_msg_MMI[0] = 0x02;
+        crc_result = calculateCRC(can_msg_MMI);
+        can_msg_MMI[6] = crc_result & 0xFF; // Low byte
+        can_msg_MMI[7] = crc_result >> 8; // High byte
+        os_can_send_msg(CAN_BUS_2, 0x0CEF5AFC, 1, 8, can_msg_MMI[0], can_msg_MMI[1], can_msg_MMI[2],can_msg_MMI[3], can_msg_MMI[4], can_msg_MMI[5], can_msg_MMI[6], can_msg_MMI[7]);
 
         rsw_counter += 1;  
         if (rsw_counter >= 256) {
@@ -703,30 +709,10 @@ void usercode(void)
     }
 
 
-
     // PVED-CLS Operation status message gateway:
-    // Reikia persiųsti status iš CAN2(Autosteering) į CAN1(Vehicle) 0x18FFDF28 adresą.
+    // Persiunčiamas PVED-CLS state iš CAN2(Autosteering) į CAN0(Vehicle) 0x18FFDF28 adresą.
     j1939_db.pgn_65503_Proprietary_B_DF.pvedcls_state = can_db_get_value(PVED_CLS_Current_Op_State);
-    // j1939_db.pgn_65433_Proprietary_B_99.spn_901_Data_Field_1 = can_db_get_value(PVED_CLS_Current_Op_State);                 // TST CAN ID: 0x18FF9931
-    // j1939_db.pgn_65433_Proprietary_B_99.spn_902_Data_Field_2 = j1939_db.pgn_65503_Proprietary_B_DF.pvedcls_state;
-    // j1939_db.pgn_65433_Proprietary_B_99.spn_908_Data_Field_8 = j1939_db.pgn_65503_Proprietary_B_DF_LP.pvedcls_reset_request;
-
-    // Jeigu kairys knob'as yra atsuktas į SET mygtuką. nuspaudžiam mygtuką ir aktyvuojasi PVED-CLS reset'as
-    // if (j1939_db.pgn_65464_Proprietary_B_B8.spn_405_Knob_5_Rotate >= 0x60 && j1939_db.pgn_65464_Proprietary_B_B8.spn_405_Knob_5_Rotate < 0x70){
-    //     if(j1939_db.pgn_65463_Proprietary_B_B7.spn_303_Button_4_Push){
-    //         // Vykdomas uždelsimas, kad nebūtų netyčinio pakartotino requesto
-    //         time_diff2 =  time_val - last_time2;
-    //         if(time_diff2 >= 8000){
-    //             // Sending Soft-Reset message to Danfoss PVED-CLS Main ECU
-    //             os_can_send_msg(CAN_BUS_2, 0x18EF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
-    //             // os_can_send_msg(CAN_BUS_0, 0x18FF9931, 1, 8, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xAB, 0xFF, 0xCC); // Test message
-    //             os_timestamp(&last_time2, OS_1ms);
-    //         }
-
-    //     } else {
-    //         // j1939_db.pgn_65433_Proprietary_B_99.spn_906_Data_Field_6 = 0xFF;
-    //     }
-    // }
+    // Onscreen Danfos reset button push check:
     // Jeigu CAN0 aptinkamas 0x0CFFDF28 paskutinis bit'as 1 - siunčiama reset comanda į CAN2
     if (can_db_get_value(PVED_Reset_request)) {
         // Vykdomas uždelsimas, kad nebūtų netyčinio pakartotino requesto
@@ -734,16 +720,12 @@ void usercode(void)
             if(time_diff2 >= 8000){
                 // Sending Soft-Reset message to Danfoss PVED-CLS Main ECU
                 os_can_send_msg(CAN_BUS_2, 0x18EF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
-                os_can_send_msg(CAN_BUS_0, 0x18EF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, 0xFF, 0xAA, 0xCC); // Test message in VEH CAN
-                // j1939_db.pgn_65433_Proprietary_B_99.spn_905_Data_Field_5 = 0xCC;
+                // os_can_send_msg(CAN_BUS_0, 0x18EF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, 0xFF, 0xAA, 0xCC); // Test message in VEH CAN
                 os_timestamp(&last_time2, OS_1ms);
             }
-        // j1939_db.pgn_65433_Proprietary_B_99.spn_906_Data_Field_6 = 0xAB;
     }
 
-    
-
-    // Danfoss PVED-CLS Operation status
+    // Danfoss PVED-CLS Operation statuses
     // 0x00 - On-Road
     // 0x10 - Off-Road Reaction
     // 0x11 - Off-Road Non-reaction
@@ -766,7 +748,6 @@ void usercode(void)
     // motor_speed_high_byte = (hydraulic_motor_Speed >> 8) & 0xFF;
     // Extract lower byte
     // motor_speed_low_byte = hydraulic_motor_Speed & 0xFF;
-
     // os_can_send_msg(CAN_BUS_0, 0x18FF1331, 1, 8, 0x96, 0xA5, 0xA5, 0xFF, 0xFF, motor_speed_high_byte, motor_speed_low_byte, hydraulic_motor_instance); // Test message in VEH CAN
 
     // Check if hydraulics are requested
@@ -787,8 +768,6 @@ void usercode(void)
             }
         }
     }
-    // jeigu hydraulics_requested_rpm yra daugiau nei 600, vadinasi reikalinga hydraulika -> tikrinam PVED state'ą.
-    // Jeigu pved state'as yra kitoks nei offroad_reaction -> siunčiam resetą.
 
     // MMI Messages END -----------------------------------------------------------
 
