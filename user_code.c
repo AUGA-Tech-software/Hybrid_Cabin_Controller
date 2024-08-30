@@ -2,8 +2,8 @@
 /// \file     user_code.c
 /// \brief    user code
 /// \author   R. Bacevicius / D. Vaitiekus
-/// \date     2024-08-23
-/// \version  2.0.5
+/// \date     2024-08-28
+/// \version  2.0.6
 /// \comment  file to write user specific code
 //--------------------------------------------------------------------------
 // AUGA Tech Hybrid M1 Tractror Cabin Controller Software on MRS M3600
@@ -17,8 +17,8 @@
 // --------------------------------------------------------------------------------
 // Example variables
 // --------------------------------------------------------------------------------
-#define SoftwareVersion "V2.0.5"                    // Version: Major.Minor.Daily
-#define SoftwareDate "2024.08.23"
+#define SoftwareVersion "V2.0.6"                    // Version: Major.Minor.Daily
+#define SoftwareDate "2024.08.28"
 #define ECU_SA 0x31                                 // Cabin Controller ECU Source Address
 
 // Can bus definitions:
@@ -69,7 +69,7 @@ J1939_db j1939_db;
 uint32_t LastSampleTimeAux;
 uint32_t sampleSumJoy=0,sampleSumJoy2=0, sampleSumRef=0, sampleSumAux4 = 0, sampleSumAux3 = 0, sampleSumAux2 = 0, sampleSumAux1 = 0, sampleCountAux = 0;
 J1939_PGN pgn_list[] = {
-                                                                                // These messages are WRITE ONLY. If you want to read CAN, use: can_db_get_value(CAN_DATA_POINT)
+        // These messages are WRITE ONLY. If you want to read CAN, use: can_db_get_value(CAN_DATA_POINT)
 		// PGN			RR		DL		SPN_st	SPN_len	ECU_ID		TXEn	nextTX
 		{0x0CFDD6,		90,		8,		0,		16,		ECU_CABIN,	1,		0},	// PGN_64982_BJM1
         {0x0CFDD8,		90,		8,		16,		9,		ECU_CABIN,	1,		0},	// PGN_64984_BJM2
@@ -93,7 +93,8 @@ J1939_PGN pgn_list[] = {
         {0x0CFE30,		90,	    8,		94,		3,		ECU_CABIN,	1,		0},	// PGN_65072_AV0C
         {0x0CFE31,		90,	    8,		97,		3,		ECU_CABIN,	1,		0},	// PGN_65072_AV1C
         {0x0CFE32,		90,	    8,		100,	3,		ECU_CABIN,	1,		0},	// PGN_65072_AV2C
-        {0x0CFE33,		90,	    8,		103,	3,		ECU_CABIN,	1,		0}	// PGN_65072_AV3C
+        {0x0CFE33,		90,	    8,		103,	3,		ECU_CABIN,	1,		0},	// PGN_65072_AV3C
+        {0x18FF18,      90,     8,      106,    4,      ECU_CABIN,  1,      0}  // PGN_??? Danfoss-PVED_CLS Steering angle sensors CAN bridge
 };
 
 const J1939_SPN spn_list[] = {
@@ -217,18 +218,23 @@ const J1939_SPN spn_list[] = {
 		{0, 	8,		&j1939_db.pgn_65072_Auxilary_Valve_0_Cmd.isobus_a2110_auxilary_valve_port_flow_cmd},
         {16, 	4,		&j1939_db.pgn_65072_Auxilary_Valve_0_Cmd.isobus_a2111_auxilary_valve_state_cmd},
         {22, 	2,		&j1939_db.pgn_65072_Auxilary_Valve_0_Cmd.isobus_a2112_auxilary_valve_fail_safe_mode_cmd},
-    // 0x0CFE31   ECU_0     PGN_65072_AV1C
+    // 0x0CFE31   ECU_0     PGN_65073_AV1C
 		{0, 	8,		&j1939_db.pgn_65072_Auxilary_Valve_1_Cmd.isobus_a2110_auxilary_valve_port_flow_cmd},
         {16, 	4,		&j1939_db.pgn_65072_Auxilary_Valve_1_Cmd.isobus_a2111_auxilary_valve_state_cmd},
         {22, 	2,		&j1939_db.pgn_65072_Auxilary_Valve_1_Cmd.isobus_a2112_auxilary_valve_fail_safe_mode_cmd},
-    // 0x0CFE32   ECU_0     PGN_65072_AV2C
+    // 0x0CFE32   ECU_0     PGN_65074_AV2C
 		{0, 	8,		&j1939_db.pgn_65072_Auxilary_Valve_2_Cmd.isobus_a2110_auxilary_valve_port_flow_cmd},
         {16, 	4,		&j1939_db.pgn_65072_Auxilary_Valve_2_Cmd.isobus_a2111_auxilary_valve_state_cmd},
         {22, 	2,		&j1939_db.pgn_65072_Auxilary_Valve_2_Cmd.isobus_a2112_auxilary_valve_fail_safe_mode_cmd},
-    // 0x0CFE33   ECU_0     PGN_65072_AV3C
+    // 0x0CFE33   ECU_0     PGN_65075_AV3C
 		{0, 	8,		&j1939_db.pgn_65072_Auxilary_Valve_3_Cmd.isobus_a2110_auxilary_valve_port_flow_cmd},
         {16, 	4,		&j1939_db.pgn_65072_Auxilary_Valve_3_Cmd.isobus_a2111_auxilary_valve_state_cmd},
         {22, 	2,		&j1939_db.pgn_65072_Auxilary_Valve_3_Cmd.isobus_a2112_auxilary_valve_fail_safe_mode_cmd},
+    // 0x18FF18   ECU_0     PGN_65304 Danfoss PVED-CLS steering wheel angle msg
+        {0,     16,     &j1939_db.pgn_65304_Steering_Angle.Estimated_EH_Flow},
+        {16,    16,     &j1939_db.pgn_65304_Steering_Angle.Estimated_Wheel_Angle},
+        {32,     8,     &j1939_db.pgn_65304_Steering_Angle.Steering_Wheel_Revolutions},
+        {45,     2,     &j1939_db.pgn_65304_Steering_Angle.Steering_Wheel_Status}
   
 };
 
@@ -642,6 +648,12 @@ void usercode(void)
     Programable_Button_Action(can_db_get_value(JOYSTICK_SETUP_6),can_db_get_value(LVR_BCK_DOWN),0, &BackDown_cnt, LVR_BCK_DOWN_CNT);
 
     //j1939_db.pgn_65241_AUXIO1.spn_1083_auxiliary_IO_channel_1 = os_algin_mv(A_JOYST_POS1); //used for debuging analog values
+
+    // PVED-CLS Steering angle messages retranslation:
+    j1939_db.pgn_65304_Steering_Angle.Estimated_EH_Flow = can_db_get_value(Estimated_EH_Flow);
+    j1939_db.pgn_65304_Steering_Angle.Estimated_Wheel_Angle = can_db_get_value(Estimated_Wheel_Angle);
+    j1939_db.pgn_65304_Steering_Angle.Steering_Wheel_Revolutions = can_db_get_value(Steering_Wheel_Revolutions);
+    j1939_db.pgn_65304_Steering_Angle.Steering_Wheel_Status = can_db_get_value(Steering_Wheel_status);
 
     //MMI system messages MMI interface for Danfoss PVED-CLS
     //-----------------------------------------------------------

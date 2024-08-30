@@ -239,6 +239,13 @@ typedef struct {
 } PGN_65072_AVC;
 
 typedef struct {
+	uint16_t	Estimated_EH_Flow;
+	uint16_t	Estimated_Wheel_Angle;
+	uint8_t		Steering_Wheel_Revolutions;
+	uint8_t		Steering_Wheel_Status;
+} PGN_65304_DF_SAS;
+
+typedef struct {
 	PGN_64982_BJM1			pgn_64982_Basic_Joystick_Message_1;
 	PGN_64984_BJM2			pgn_64984_Basic_Joystick_Message_2;
 	PGN_57434_CM1			pgn_57434_Cabin_Message_1;
@@ -263,6 +270,7 @@ typedef struct {
 	PGN_65072_AVC			pgn_65072_Auxilary_Valve_1_Cmd;
 	PGN_65072_AVC			pgn_65072_Auxilary_Valve_2_Cmd;
 	PGN_65072_AVC			pgn_65072_Auxilary_Valve_3_Cmd;
+	PGN_65304_DF_SAS		pgn_65304_Steering_Angle;
 } J1939_db;
 
 // --------------------------------------------------------------------------------

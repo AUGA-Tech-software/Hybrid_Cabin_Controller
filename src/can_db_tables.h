@@ -6,7 +6,7 @@
 /** \file     can_db_tables.h
 *   \brief    CAN bus database
 *
-*   \date     2024-08-23    \author   DS/
+*   \date     2024-08-30    \author   DS/
 *
 *   \platform HCS08DZ / HCS12XE / HCS12XD / HCS12P
 * --------------------------------------------------------------------------
@@ -60,7 +60,7 @@
     #define CAN1_MASK_DIVISION BIOS_CAN_ID_EXT_A_AND_B
 
     #define CAN2_FILTER_A 0x18FF2013
-    #define CAN2_FILTER_B 0x18FF2013
+    #define CAN2_FILTER_B 0x0CFF1813
     #define CAN2_MASK_A   0x00000000
     #define CAN2_MASK_B   0x00000000
     #define CAN2_MASK_DIVISION BIOS_CAN_ID_EXT_A_AND_B
@@ -204,6 +204,10 @@ typedef enum
     JOYSTIC_AUX4_SETSPEED_Down ,
     PVED_Reset_request         ,
     PVED_CLS_Current_Op_State  ,
+    Estimated_EH_Flow          ,
+    Estimated_Wheel_Angle      ,
+    Steering_Wheel_Revolutions ,
+    Steering_Wheel_status      ,
     CAN_DP_MAX            
 }can_dp_id;
 
@@ -234,7 +238,8 @@ typedef enum
     PVED_STATUS             = 18,
     PVED_RST_RQST           = 19,
     EAMS1                   = 20,
-    CAN_BLOCK_MAX           = 21
+    STR_FB_MSG_X            = 21,
+    CAN_BLOCK_MAX           = 22
 } can_block_id;
 
 

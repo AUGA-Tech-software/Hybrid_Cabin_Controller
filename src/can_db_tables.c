@@ -2,7 +2,7 @@
 /** \file     can_db_tables.c
 *   \brief    CAN bus database
 *
-*   \date     2024-08-23    \author   DS/
+*   \date     2024-08-30    \author   DS/
 *
 *   \platform HCS08DZ / HCS12XE / HCS12XD / HCS12P
 * --------------------------------------------------------------------------*/
@@ -106,6 +106,10 @@
 {  PROPB_02              ,52                   ,4          ,UBYTE      ,0          },  //JOYSTIC_AUX4_SETSPEED_Down
 {  PVED_RST_RQST         ,63                   ,1          ,UBYTE      ,0          },  //PVED_Reset_request    
 {  PVED_STATUS           ,0                    ,8          ,UBYTE      ,0          },  //PVED_CLS_Current_Op_State
+{  STR_FB_MSG_X          ,0                    ,16         ,UINT       ,0          },  //Estimated_EH_Flow     
+{  STR_FB_MSG_X          ,16                   ,16         ,UINT       ,0          },  //Estimated_Wheel_Angle 
+{  STR_FB_MSG_X          ,32                   ,8          ,UBYTE      ,0          },  //Steering_Wheel_Revolutions
+{  STR_FB_MSG_X          ,45                   ,2          ,UBYTE      ,0          },  //Steering_Wheel_status 
 };
 
 
@@ -146,6 +150,7 @@
 {  CAN_BUS_2             ,0x18FF2013           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //PVED_STATUS           
 {  CAN_BUS_0             ,0x0CFFDF28           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //PVED_RST_RQST         
 {  CAN_BUS_0             ,0x18FC012E           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //EAMS1                 
+{  CAN_BUS_2             ,0x0CFF1813           ,1                    ,100                  ,50                   ,8                    ,0                    ,NONE                 ,0                    ,0                    ,0                    ,0                    } ,  //STR_FB_MSG_X          
 };
 
 
