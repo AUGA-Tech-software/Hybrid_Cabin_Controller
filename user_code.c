@@ -2,8 +2,8 @@
 /// \file     user_code.c
 /// \brief    user code
 /// \author   R. Bacevicius / D. Vaitiekus
-/// \date     2024-08-28
-/// \version  2.0.6
+/// \date     2024-09-27
+/// \version  2.0.7
 /// \comment  file to write user specific code
 //--------------------------------------------------------------------------
 // AUGA Tech Hybrid M1 Tractror Cabin Controller Software on MRS M3600
@@ -17,8 +17,8 @@
 // --------------------------------------------------------------------------------
 // Example variables
 // --------------------------------------------------------------------------------
-#define SoftwareVersion "V2.0.6"                    // Version: Major.Minor.Daily
-#define SoftwareDate "2024.08.28"
+#define SoftwareVersion "V2.0.7"                    // Version: Major.Minor.Daily
+#define SoftwareDate "2024.09.27"
 #define ECU_SA 0x31                                 // Cabin Controller ECU Source Address
 
 // Can bus definitions:
@@ -41,7 +41,7 @@ uint8_t motor_speed_high_byte = 0;
 uint8_t motor_speed_low_byte = 0;
 
 
-uint32_t time_val, last_time, last_time1, last_time2, time_diff, time_diff2;
+uint32_t time_val, last_time, last_time1, last_time2, time_val_WAS, last_time_WAS, time_diff_WAS, time_diff, time_diff2;
 uint8_t i, j;
 uint8_t can_data_bytes[8];
 uint8_t current_gear = 0xFB;
@@ -61,6 +61,8 @@ uint16_t crc16_table[16] = {
     0x0000, 0xC86C, 0x58B4, 0x90D8, 0xB168, 0x7904, 0xE9DC, 0x21B0,
     0xAABC, 0x62D0, 0xF208, 0x3A64, 0x1BD4, 0xD3B8, 0x4360, 0x8B0C
 };
+
+uint16_t wheel_angle_sensor_data = 0;
 
 // Counters for MMI messages
 int spd_counter = 240,rsw_counter = 240;
@@ -94,7 +96,8 @@ J1939_PGN pgn_list[] = {
         {0x0CFE31,		90,	    8,		97,		3,		ECU_CABIN,	1,		0},	// PGN_65072_AV1C
         {0x0CFE32,		90,	    8,		100,	3,		ECU_CABIN,	1,		0},	// PGN_65072_AV2C
         {0x0CFE33,		90,	    8,		103,	3,		ECU_CABIN,	1,		0},	// PGN_65072_AV3C
-        {0x18FF18,      90,     8,      106,    4,      ECU_CABIN,  1,      0}  // PGN_??? Danfoss-PVED_CLS Steering angle sensors CAN bridge
+        {0x18FF18,      90,     8,      106,    4,      ECU_CABIN,  1,      0}, // PGN_??? Danfoss-PVED_CLS Steering angle sensors CAN bridge
+        {0x18FF21,      90,     8,      110,    2,      ECU_CABIN,  1,      0}  // PGN65280 Danfoss-PVED_CLS STATUS MESSAGE 1
 };
 
 const J1939_SPN spn_list[] = {
@@ -234,7 +237,10 @@ const J1939_SPN spn_list[] = {
         {0,     16,     &j1939_db.pgn_65304_Steering_Angle.Estimated_EH_Flow},
         {16,    16,     &j1939_db.pgn_65304_Steering_Angle.Estimated_Wheel_Angle},
         {32,     8,     &j1939_db.pgn_65304_Steering_Angle.Steering_Wheel_Revolutions},
-        {45,     2,     &j1939_db.pgn_65304_Steering_Angle.Steering_Wheel_Status}
+        {45,     2,     &j1939_db.pgn_65304_Steering_Angle.Steering_Wheel_Status},
+    // 0x18FF21   ECU_0     PGN65280 Danfoss-PVED_CLS STATUS MESSAGE 1
+        {32,    16,     &j1939_db.pgn_65280_pved_cls_status1.AD1_X},
+        {48,    16,     &j1939_db.pgn_65280_pved_cls_status1.AD2_X}
   
 };
 
@@ -651,9 +657,25 @@ void usercode(void)
 
     // PVED-CLS Steering angle messages retranslation:
     j1939_db.pgn_65304_Steering_Angle.Estimated_EH_Flow = can_db_get_value(Estimated_EH_Flow);
-    j1939_db.pgn_65304_Steering_Angle.Estimated_Wheel_Angle = can_db_get_value(Estimated_Wheel_Angle);
+    // Bandymas: Persiunčiami WAS duomenys per kintamajį, kuris nenusiresetina tarp iteracijų (CAN siuntimo, main loop'o)
+    wheel_angle_sensor_data = can_db_get_value(Estimated_Wheel_Angle);
+    j1939_db.pgn_65304_Steering_Angle.Estimated_Wheel_Angle = wheel_angle_sensor_data;
     j1939_db.pgn_65304_Steering_Angle.Steering_Wheel_Revolutions = can_db_get_value(Steering_Wheel_Revolutions);
     j1939_db.pgn_65304_Steering_Angle.Steering_Wheel_Status = can_db_get_value(Steering_Wheel_status);
+
+
+    // check if a time of 5000ms passed since last timestamp
+    if(os_time_past(time_val_WAS, 5000, OS_1ms) ){
+        // request for STATUS MESSAGE 1 [STAT_MSG_1_X] from PVED-CLS MAIN every 5sec.
+        os_can_send_msg(CAN_BUS_2, 0x18EF1331, 1, 8, 132, 255, 10, 255, 255, 255, 255, 255);
+        // if the time passed, set "time_val" to a new timestamp to start cycling
+        os_timestamp(&time_val_WAS, OS_1ms);
+    }
+
+    // Status message 1 Response from PVED-CLS MAIN (AD1 and AD2) is relayed to vehicle CAN
+    j1939_db.pgn_65280_pved_cls_status1.AD1_X = can_db_get_value(PVED_CLS_AD1);
+    j1939_db.pgn_65280_pved_cls_status1.AD2_X = can_db_get_value(PVED_CLS_AD2);
+
 
     //MMI system messages MMI interface for Danfoss PVED-CLS
     //-----------------------------------------------------------
