@@ -215,11 +215,6 @@ typedef struct {
 	uint8_t		reserved;
 } PGN_65503_PROPB_DF;
 
-// HMI controller proprietary COM
-typedef struct {
-	uint8_t		pvedcls_reset_request;
-} PGN_65503_PROPB_DF_LP;
-
 // TEST MESSAGE (8 datapoints)
 typedef struct {
 	uint8_t		spn_901_Data_Field_1;
@@ -246,8 +241,8 @@ typedef struct {
 } PGN_65304_DF_SAS;
 
 typedef struct {
-	uint16_t	AD1_X;
-	uint16_t	AD2_X;
+	uint16_t	PVED_CLS_AD1_X;
+	uint16_t	PVED_CLS_AD2_X;
 } PGN_65280_DF_STATUS1;
 
 typedef struct {
@@ -269,7 +264,6 @@ typedef struct {
 	PGN_65463_PROPB_B7		pgn_65463_Proprietary_B_B7;
 	PGN_65464_PROPB_B8		pgn_65464_Proprietary_B_B8;
 	PGN_65503_PROPB_DF		pgn_65503_Proprietary_B_DF;
-	PGN_65503_PROPB_DF_LP	pgn_65503_Proprietary_B_DF_LP;
 	PGN_65433_PROPB_99		pgn_65433_Proprietary_B_99;
 	PGN_65072_AVC			pgn_65072_Auxilary_Valve_0_Cmd;
 	PGN_65072_AVC			pgn_65072_Auxilary_Valve_1_Cmd;

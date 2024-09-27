@@ -3,7 +3,7 @@
 /// \brief    user code
 /// \author   R. Bacevicius / D. Vaitiekus
 /// \date     2024-09-27
-/// \version  2.0.7
+/// \version  2.0.8
 /// \comment  file to write user specific code
 //--------------------------------------------------------------------------
 // AUGA Tech Hybrid M1 Tractror Cabin Controller Software on MRS M3600
@@ -17,7 +17,7 @@
 // --------------------------------------------------------------------------------
 // Example variables
 // --------------------------------------------------------------------------------
-#define SoftwareVersion "V2.0.7"                    // Version: Major.Minor.Daily
+#define SoftwareVersion "V2.0.8"                    // Version: Major.Minor.Daily
 #define SoftwareDate "2024.09.27"
 #define ECU_SA 0x31                                 // Cabin Controller ECU Source Address
 
@@ -206,8 +206,6 @@ const J1939_SPN spn_list[] = {
     // 0x18FFDF    ECU_0    PGN_65503_PROPB_DF (Danfoss steering controller status)
         {0, 	8,		&j1939_db.pgn_65503_Proprietary_B_DF.pvedcls_state},            // PVED-CLS State / Steering mode
         {63, 	1,		&j1939_db.pgn_65503_Proprietary_B_DF.reserved},                 // Reserved
-    // 0x0CFFDF    ECU_0    PGN_65503_PROPB_DF_LP (HMI controller proprietary COM)
-        {63, 	1,		&j1939_db.pgn_65503_Proprietary_B_DF_LP.pvedcls_reset_request},            // PVED-CLS Soft Reset request
     // 0x18FF99    ECU_0    PGN_65433_PROPB_99 (TEST MESSAGE DEBUG) TEST MESSAGE (8 datapoints)
         {0, 	8,		&j1939_db.pgn_65433_Proprietary_B_99.spn_901_Data_Field_1},
         {8, 	8,		&j1939_db.pgn_65433_Proprietary_B_99.spn_902_Data_Field_2},
@@ -239,9 +237,8 @@ const J1939_SPN spn_list[] = {
         {32,     8,     &j1939_db.pgn_65304_Steering_Angle.Steering_Wheel_Revolutions},
         {45,     2,     &j1939_db.pgn_65304_Steering_Angle.Steering_Wheel_Status},
     // 0x18FF21   ECU_0     PGN65280 Danfoss-PVED_CLS STATUS MESSAGE 1
-        {32,    16,     &j1939_db.pgn_65280_pved_cls_status1.AD1_X},
-        {48,    16,     &j1939_db.pgn_65280_pved_cls_status1.AD2_X}
-  
+        {32,    16,     &j1939_db.pgn_65280_pved_cls_status1.PVED_CLS_AD1_X},   // Danfoss Wheel Angle Sensor ch A
+        {48,    16,     &j1939_db.pgn_65280_pved_cls_status1.PVED_CLS_AD2_X}    // Danfoss Wheel Angle Sensor ch B
 };
 
 const uint16_t bitmask_template[] = {
@@ -673,8 +670,8 @@ void usercode(void)
     }
 
     // Status message 1 Response from PVED-CLS MAIN (AD1 and AD2) is relayed to vehicle CAN
-    j1939_db.pgn_65280_pved_cls_status1.AD1_X = can_db_get_value(PVED_CLS_AD1);
-    j1939_db.pgn_65280_pved_cls_status1.AD2_X = can_db_get_value(PVED_CLS_AD2);
+    j1939_db.pgn_65280_pved_cls_status1.PVED_CLS_AD1_X = can_db_get_value(PVED_CLS_AD1);
+    j1939_db.pgn_65280_pved_cls_status1.PVED_CLS_AD2_X = can_db_get_value(PVED_CLS_AD2);
 
 
     //MMI system messages MMI interface for Danfoss PVED-CLS
